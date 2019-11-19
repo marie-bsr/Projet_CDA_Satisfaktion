@@ -25,7 +25,7 @@ def profil(utilisateur_non_identifie):
 def login():
     error = None
     if request.method == "POST":
-        if request.form['username'] != 'admin' or request.form['password'] != 'admin':
+        if request.form['username'] != 'admin@admin.admin' or request.form['password'] != 'admin':
             error = 'Identifiants invalides, veuillez réessayer.'
         else:
             return redirect(url_for('page_accueil'))
