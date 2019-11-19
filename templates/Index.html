@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 
 <head>
     <meta charset="UTF-8">
@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" type="text/css" href="Imports/main.css">
+    <link rel="stylesheet" type="text/css" href="../static/main.css">
     <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
 </head>
 
@@ -18,69 +18,42 @@
         <header>
             <div class="container ">
                 <div class="row justify-content-between p-3 mt-1">
+                        {% if name is defined %}
                     <div id="img_banniere" class="col-4"></div>
                     <div class="row justify-content-between col-8 mt-5">
-                            <h4 class="mt-3">Bonjour, getUtilisateur($c, $id)->prenom</h4>
-                            <a href="__ROOT__/disconnect" class=""><i class="fa fa-power-off fa-4x"
-                                    aria-hidden="true"></i></a>
+                        <h4 class="mt-3">Bonjour,{% block name %}{% endblock %}</h4>
+                            {% if connected %}
+                        <a href="__ROOT__/disconnect" class=""><i class="fa fa-power-off fa-4x"
+                                aria-hidden="true"></i></a>
+                            {% endif %}
+                        {% else %}
+
+                        <div class="col-3" id="img_banniere"></div>
+                        <div class="col-6 text-center display-2 mt-5">Satifaktion</div>
+                        <div class="col-3"></div>
+                        {% endif %}
+
                     </div>
 
                 </div>
             </div>
-            <div class="container">
-                <div class="">
-                    <div class="d-flex menu flex-column">
-                        <a class="center" href="__ROOT__/liste_formations.html">Liste des formations</a>
-                        <a class="center" href="__ROOT__/admin.html">Admin</a>
-                    </div>
+            <div class="container ">
+                    {% if profils is defined %}
+                <div class="menu">
+                    <a href="">Liste formations</a>
+                        {% if profils.role == "admin" %}
+                        <a href="">Administration</a>
+                        {% endif %}
+                    {% endif %}
                 </div>
             </div>
         </header>
         <div class="row">
-            <div class="col-3">Colonne 1</div>
-            <div class="col-3">Colonne 2</div>
-            <div class="col-3">Colonne 3</div>
-            <div class="col-3">Colonne 4</div>
-            <div class="col-3">Colonne 1</div>
-            <div class="col-3">Colonne 2</div>
-            <div class="col-3">Colonne 3</div>
-            <div class="col-3">Colonne 4</div>
-            <div class="col-3">Colonne 1</div>
-            <div class="col-3">Colonne 2</div>
-            <div class="col-3">Colonne 3</div>
-            <div class="col-3">Colonne 4</div>
-            <div class="col-3">Colonne 1</div>
-            <div class="col-3">Colonne 2</div>
-            <div class="col-3">Colonne 3</div>
-            <div class="col-3">Colonne 4</div>
-            <div class="col-3">Colonne 1</div>
-            <div class="col-3">Colonne 2</div>
-            <div class="col-3">Colonne 3</div>
-            <div class="col-3">Colonne 4</div>
-            <div class="col-3">Colonne 1</div>
-            <div class="col-3">Colonne 2</div>
-            <div class="col-3">Colonne 3</div>
-            <div class="col-3">Colonne 4</div>
-            <div class="col-3">Colonne 1</div>
-            <div class="col-3">Colonne 2</div>
-            <div class="col-3">Colonne 3</div>
-            <div class="col-3">Colonne 4</div>
-            <div class="col-3">Colonne 1</div>
-            <div class="col-3">Colonne 2</div>
-            <div class="col-3">Colonne 3</div>
-            <div class="col-3">Colonne 4</div>
-            <div class="col-3">Colonne 1</div>
-            <div class="col-3">Colonne 2</div>
-            <div class="col-3">Colonne 3</div>
-            <div class="col-3">Colonne 4</div>
-
+                {% block content %}{% endblock %}
         </div>
-
-
         <footer class="row justify-content-around mt-5">
             <a href="#">Mentions légales</a>
             <a href="#">Contactez l'administrateur</a>
-
         </footer>
     </div>
 </body>
@@ -90,17 +63,17 @@
 <script>
 
 
-function envoiConfirmation(message){
-    if(confirm(message)){
-        alert("Envoi confirmé !")
-// Renvoyer a la page precedente
-    }else{
-//Renvoyer a la page precedente / cacher l'alert
+    function envoiConfirmation(message) {
+        if (confirm(message)) {
+            alert("Envoi confirmé !")
+            // Renvoyer a la page precedente
+        } else {
+            //Renvoyer a la page precedente / cacher l'alert
+        }
     }
-}
 
-function envoiMessage(message){
-    alert(message)
-}
+    function envoiMessage(message) {
+        alert(message)
+    }
 
 </script>

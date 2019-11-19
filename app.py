@@ -16,13 +16,26 @@ def profil(utilisateur_non_identifie):
     else:
         return(redirect(url_for('page_accueil')))
 
-@app.route('/login')
-def page_de_login():
-    return render_template("connection.html")
+# @app.route('/login')
+# def page_de_login():
+#     return render_template("connection.html", connected = 0)
+
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    error = None
+    if request.method == "POST":
+        if request.form['username'] != 'admin' or request.form['password'] != 'admin':
+            error = 'Identifiants invalides, veuillez réessayer.'
+        else:
+            return redirect(url_for('page_accueil'))
+
+    return render_template("connection.html", connected = 0, error = error)
+
 
 @app.route('/accueil')
 def page_accueil():
-    return render_template("Index.html", nom="Anthony")
+    return render_template("page.html", connected = 1, profils = {"nom" : "Anthony", "role" : "admin"})
 
 
 if __name__ == '__main__':
