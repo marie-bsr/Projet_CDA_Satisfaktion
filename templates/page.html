@@ -1,6 +1,6 @@
 {% extends "index.html" %}
 
-{% block name %}NOM A RECUPERER{% endblock %}
+{% block name %}{% if profil is defined%}{{profil.nom}}{% endif %}{% endblock %}
 {% block content %}
 
 <div class="col-3">Colonne 1</div>
