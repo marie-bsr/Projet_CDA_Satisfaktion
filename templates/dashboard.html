@@ -1,0 +1,25 @@
+{% extends "page.html" %}
+
+{% block content %}
+
+<h3 class="text-center">Gestion de la promotion {{ promotion.nom }}</h3>
+<p>{{ promotion }}</p>
+<div class="">
+    {% for questionnaire in questionnaires_quanti %}
+    <div class="row">
+        <div class="graphique_questionnaire_quanti col-10">
+            <p>graphique ici</p>
+            <span>{{ questionnaire.date_reponse }}</span>
+        </div>
+        <div class="col-2">+</div>
+    </div>
+    {% endfor %}
+</div>
+
+
+
+
+
+
+
+{% endblock %}

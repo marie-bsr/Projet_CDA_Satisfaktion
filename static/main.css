@@ -71,3 +71,47 @@ body{
 .btn_admin:hover{
     background-color: lightgray;
 }
+
+.liste_formations{
+    min-height: 350px;
+}
+
+.dropdown{
+    margin-top: 4rem;
+}
+
+.dropdown a{
+    padding:2rem;
+    width: 15rem;
+    font-size: 19pt;
+}
+
+.CDA{
+    background-color: greenyellow;
+}
+.CDA:hover{
+    background-color: lightgreen;
+    transition-duration: 0.5s;
+}
+.DATA{
+    background-color: yellow;
+}
+.DATA:hover{
+    background-color: lightyellow;
+    transition-duration: 0.5s;
+}
+.WEBMARKET{
+    background-color: purple;
+
+}
+.WEBMARKET:hover{
+    background-color: rgb(231, 141, 211);
+    transition-duration: 0.5s;
+}
+.DWWM{
+    background-color: rgb(153, 17, 17);
+}
+.DWWM:hover{
+    background-color: lightpink;
+    transition-duration: 0.5s;
+}
