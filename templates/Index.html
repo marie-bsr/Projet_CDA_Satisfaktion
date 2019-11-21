@@ -9,8 +9,11 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" type="text/css" href="../static/main.css">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css')}}">
     <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -18,43 +21,45 @@
         <header>
             <div class="container ">
                 <div class="row justify-content-between p-3 mt-1">
-                        {% if name is defined %}
-                    <div id="img_banniere" class="col-4"></div>
-                    <div class="row justify-content-between col-8 mt-5">
-                        <h4 class="mt-3">Bonjour,{% block name %}{% endblock %}</h4>
-                            {% if connected %}
-                        <a href="__ROOT__/disconnect" class=""><i class="fa fa-power-off fa-4x"
-                                aria-hidden="true"></i></a>
-                            {% endif %}
-                        {% else %}
-
-                        <div class="col-3" id="img_banniere"></div>
-                        <div class="col-6 text-center display-2 mt-5">Satifaktion</div>
-                        <div class="col-3"></div>
-                        {% endif %}
-
-                    </div>
-
-                </div>
-            </div>
-            <div class="container ">
-                    {% if profils is defined %}
-                <div class="menu d-flex">
-                    <a href="">Liste formations</a>
-                        {% if profils.role == "admin" %}
-                        <a href="">Administration</a>
-                        {% endif %}
+                    {% if profil.nom is defined %}
+                    <div id="img_banniere" class="col-4 text-center"></div>
+                    <h4 class="mt-5 col-4 text-center">Bonjour,{% block name %}{% endblock %}</h4>
+                    {% if connected==True %}
+                    <a href="{{ url_for('page_de_login') }}" class="mt-5 col-4 text-center"><i class="fa fa-power-off fa-4x"
+                            aria-hidden="true"></i></a>
                     {% endif %}
+                    {% else %}
+
+                    <div class="col-3" id="img_banniere"></div>
+                    <div class="col-6 text-center display-2 mt-5">Satifaktion</div>
+                    <div class="col-3"></div>
+                    {% endif %}
+
                 </div>
+
             </div>
-        </header>
-        <div class="row">
-                {% block content %}{% endblock %}
+    </div>
+    <div class="">
+        {% if profil.nom is defined %}
+        <div class="menu flex-column">
+            <a href="{{ url_for('page_accueil') }}">Liste formations</a>
+            {% if profil.role == "admin" %}
+            <a href="{{ url_for('page_admin') }}">Administration</a>
+            {% endif %}
+            {% endif %}
         </div>
-        <footer class="row justify-content-around mt-5">
-            <a href="#">Mentions légales</a>
-            <a href="#">Contactez l'administrateur</a>
-        </footer>
+    </div>
+    </header>
+    <div class=" container">
+        {% block content %}{% endblock %}
+    </div>
+    <footer class="container  mt-5">
+        <div class="row justify-content-around">
+                <a href="#">Mentions légales</a>
+                <a href="#">Contactez l'administrateur</a>
+        
+        </div>
+    </footer>
     </div>
 </body>
 
@@ -75,5 +80,19 @@
     function envoiMessage(message) {
         alert(message)
     }
+
+    color_table = ["#b0f98c", "#e2a53b", "#2e253d", "#ad7585"]
+    color_table_hover = [ "#5bc128", "#f7ac2a", "#44355b", "#d8a2b1"]
+    var dropdown = document.getElementsByClassName("dropdown-toggle");
+    for(let i = 0; i < dropdown.length; i++){
+        dropdown[i].style.backgroundColor = color_table[i];
+        dropdown[i].addEventListener("mouseover", function(e){
+            dropdown[i].style.backgroundColor = color_table_hover[i];
+        })
+        dropdown[i].addEventListener("mouseout", function(e){
+            dropdown[i].style.backgroundColor = color_table[i];
+        })
+    }
+
 
 </script>

@@ -1,0 +1,121 @@
+{% extends "page.html" %}
+
+{% block content %}
+{% if admin_type != "administrateur" %}
+<a class="btn BackArrow" href={{ url_for("page_admin") }}><i class="fa fa-arrow-left fa-4x" aria-hidden="true"></i></a>
+
+{% endif %}
+<div class="d-flex flex-column mb-5 page_admin">
+    <h2 class="row">Gestion
+        {{admin_type}}
+    </h2>
+
+    {% if admin_type == "administrateur" %}
+    <div class="d-flex flex-column mt-5 mb-5">
+        <a class="btn btn_admin" href={{ url_for("admin_utilisateurs") }}>Utilisateurs</a>
+        <a class="btn btn_admin" href={{ url_for("admin_formations") }}>Formations</a>
+        <a class="btn btn_admin" href={{ url_for("admin_etudiants") }}>Etudiants</a>
+    </div>
+    {% endif %}
+
+
+    <!-- PARTIE étudiants  -->
+    {% if admin_type == "étudiants" %}
+
+    <table class="table">
+        <thead class="thead-dark text-center">
+            <th>Nom</th>
+            <th>Prenom</th>
+            <th>Formation</th>
+            <th>Actions</th>
+        </thead>
+        <tbody class="text-center">
+            {% for stud in etudiants %}
+            <tr>
+                <td>{{stud.nom}}</td>
+                <td>{{stud.prenom}}</td>
+                <td><select name="formation" id="">
+                        {% for formation in formations %}
+                        {% if stud.formation == formation.nom %}
+                        <option selected value={{ formation.id }}> {{ formation.nom }} </option>
+                        {% else %}
+                        <option value={{ formation.id }}> {{ formation.nom }} </option>
+                        {% endif %}
+                        {% endfor %}
+                    </select></td>
+                    <td><button class="btn"><i class="fa fa-check" aria-hidden="true"></i></button>|<button class="btn"><i class="fa fa-trash" aria-hidden="true"></i></button></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <button class="btn"><i class="fa fa-plus-circle fa-2x" aria-hidden="true"></i></button>
+    {% endif %}
+
+
+    <!-- PARTIE FORMATION  -->
+    {% if admin_type == "formations" %}
+
+    <div class="add_formation">
+            <button class="btn"><i class="fa fa-plus-circle fa-2x" aria-hidden="true"></i></button>
+        </div>
+    <div class="d-flex flex-column">
+        {% for formation in formations %}
+        <div class="row">
+            <a href="#" class="col-10 btn p-3"> {{formation.nom}} </a>
+            <i class="fa fa-trash" aria-hidden="true"></i>
+            <p></p>
+
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+
+    <!-- PARTIE UTILISATEURS -->
+    {% if admin_type == "utilisateurs" %}
+
+    <table class="table">
+            <thead class="thead-dark text-center">
+                <th>Nom</th>
+            <th>Role</th>
+            <th>Formation</th>
+            <th>Actions</th>
+        </thead>
+        <tbody class="text-center">
+                {% for utilisateur in utilisateurs %}
+            <tr>
+                <td>{{utilisateur.nom}}</td>
+                <td>
+                    <select name="role" id="">
+                    {% for role in roles %}
+                        {% if utilisateur.role == role.nom %}
+                            <option selected value={{ role.id }}> {{ role.nom }} </option>
+                        {% else %}
+                            <option value={{ role.id }}> {{ role.nom }} </option>
+                        {% endif %}
+                    {% endfor %}
+                    </select>
+                </td>
+                <td>
+                    <select name="formation" id="">
+                    {% for formation in formations %}
+                        {% if utilisateur.formation == formation.nom %}
+                            <option selected value={{ formation.id }}> {{ formation.nom }} </option>
+                        {% else %}
+                            <option value={{ formation.id }}> {{ formation.nom }} </option>
+                        {% endif %}
+                    {% endfor %}
+                    </select>
+                </td>
+                <td><button class="btn"><i class="fa fa-check" aria-hidden="true"></i></button>|<button class="btn"><i class="fa fa-trash" aria-hidden="true"></i></button></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <button class="btn"><i class="fa fa-plus-circle fa-2x" aria-hidden="true"></i></button>
+
+    {% endif %}
+</div>
+
+
+{% endblock %}
