@@ -24,8 +24,8 @@
                     {% if profil.nom is defined %}
                     <div id="img_banniere" class="col-4 text-center"></div>
                     <h4 class="mt-5 col-4 text-center">Bonjour,{% block name %}{% endblock %}</h4>
-                    {% if connected %}
-                    <a href="{{ url_for('page_de_login') }}" class="mt-4 col-4 text-center"><i class="fa fa-power-off fa-4x"
+                    {% if connected==True %}
+                    <a href="{{ url_for('page_de_login') }}" class="mt-5 col-4 text-center"><i class="fa fa-power-off fa-4x"
                             aria-hidden="true"></i></a>
                     {% endif %}
                     {% else %}

@@ -22,15 +22,15 @@
     <!-- PARTIE étudiants  -->
     {% if admin_type == "étudiants" %}
 
-    <table>
-        <thead>
+    <table class="table">
+        <thead class="thead-dark text-center">
             <th>Nom</th>
             <th>Prenom</th>
             <th>Formation</th>
             <th>Actions</th>
         </thead>
-        <tbody>
-            {% for stud in étudiants %}
+        <tbody class="text-center">
+            {% for stud in etudiants %}
             <tr>
                 <td>{{stud.nom}}</td>
                 <td>{{stud.prenom}}</td>
@@ -43,8 +43,8 @@
                         {% endif %}
                         {% endfor %}
                     </select></td>
-                <td><button class="btn">Edit</button>|<button class="btn">delete</button></td>
-            </tr>
+                    <td><button class="btn"><i class="fa fa-check" aria-hidden="true"></i></button>|<button class="btn"><i class="fa fa-trash" aria-hidden="true"></i></button></td>
+                </tr>
             {% endfor %}
         </tbody>
     </table>
@@ -61,7 +61,7 @@
     <div class="d-flex flex-column">
         {% for formation in formations %}
         <div class="row">
-            <a href="{{ url_for('focus_formation', nom=formation.nom) }}" class="col-10"> {formation.nom} </a>
+            <a href="#" class="col-10 btn p-3"> {{formation.nom}} </a>
             <i class="fa fa-trash" aria-hidden="true"></i>
             <p></p>
 
@@ -74,15 +74,15 @@
     <!-- PARTIE UTILISATEURS -->
     {% if admin_type == "utilisateurs" %}
 
-    <table>
-        <thead>
-            <th>Nom</th>
+    <table class="table">
+            <thead class="thead-dark text-center">
+                <th>Nom</th>
             <th>Role</th>
             <th>Formation</th>
             <th>Actions</th>
         </thead>
-        <tbody>
-            {% for utilisateur in utilisateurs %}
+        <tbody class="text-center">
+                {% for utilisateur in utilisateurs %}
             <tr>
                 <td>{{utilisateur.nom}}</td>
                 <td>
@@ -107,7 +107,7 @@
                     {% endfor %}
                     </select>
                 </td>
-                <td><button class="btn">Edit</button>|<button class="btn">delete</button></td>
+                <td><button class="btn"><i class="fa fa-check" aria-hidden="true"></i></button>|<button class="btn"><i class="fa fa-trash" aria-hidden="true"></i></button></td>
             </tr>
             {% endfor %}
         </tbody>
