@@ -26,14 +26,7 @@ login = LoginManager(app)
 
 #connexion à la BDD
 #requete pour recupérer 1 info d'une table
-def mafonctioncompteur (codeSql) :
-    cursor = cnx.cursor()
-    cursor.execute(codeSql) 
-    compteur = []
-    compteur=cursor.fetchone()[0]
-    #for entry in cursor:
-    #    compteur.append(entry)
-    return compteur
+
 
 
 def getTable(table_name):
