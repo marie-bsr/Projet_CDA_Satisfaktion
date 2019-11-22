@@ -22,7 +22,17 @@ cnx = mysql.connector.connect(
 mycursor = cnx.cursor()
 
 login = LoginManager(app)
-# requete pour recupérer toutes les info d'une table
+
+#connexion à la BDD
+#requete pour recupérer toutes les info d'une table
+def mafonctioncompteur (codeSql) :
+    cursor = cnx.cursor()
+    cursor.execute(codeSql) 
+    compteur = []
+    compteur=cursor.fetchone()[0]
+    #for entry in cursor:
+    #    compteur.append(entry)
+    return compteur
 
 
 def getTable(table_name):
@@ -35,6 +45,41 @@ def getTable(table_name):
     return values
 
 
+
+#page graphique Gwen
+@app.route('/graphique')
+def page_graph () :
+
+    tab_compteur=[0, 0, 0, 0, 0]
+    #récupération des étiquettes
+    cursor = cnx.cursor(dictionary=True)
+    sql = ("SELECT DISTINCT rep_progression  FROM questionnaire_quanti")
+    cursor.execute(sql) 
+    values = []
+    for entry in cursor:
+        values.append(entry)
+
+    #récupère la liste des acceptable
+    sql_accep = ("SELECT COUNT(id) FROM questionnaire_quanti WHERE rep_progression='Acceptable' ")
+    tab_compteur[2] = mafonctioncompteur(sql_accep)
+    #récupère la liste des insatisfaisant
+    sql_insatisf = ("SELECT COUNT(id) FROM questionnaire_quanti WHERE rep_progression='Insatisfaisant' ")
+    tab_compteur[1]=mafonctioncompteur(sql_insatisf)
+    #récupère la liste des excellent
+    sql_excell = ("SELECT COUNT(id) FROM questionnaire_quanti WHERE rep_progression='Excellent'")
+    tab_compteur[4]=mafonctioncompteur(sql_excell)
+    #récupère le nombre de insuffisant   
+    sql_insuff= ("SELECT COUNT(id) FROM questionnaire_quanti WHERE rep_progression='Très insuffisant'")
+    tab_compteur[0]=mafonctioncompteur(sql_insuff)
+    #récupère la liste des satisfaisant
+    sql_satisf= ("SELECT COUNT(id) FROM questionnaire_quanti WHERE rep_progression='Satisfaisant'")
+    tab_compteur[3]=mafonctioncompteur(sql_satisf)
+    return render_template(
+        "graphGwen.html", 
+        resultetiquette = values,
+        results=tab_compteur
+    )
+
 # Variables globales
 hash = generate_password_hash('admin')
 formations = getTable("formation")
@@ -45,7 +90,7 @@ etudiants = getTable('etudiant')
 
 @app.route('/')
 def index():
-    return redirect(url_for('page_accueil'))
+    return redirect(url_for('page_de_login'))
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -100,7 +145,7 @@ if __name__ == '__main__':
 def getData1():
 
     requete = "SELECT COUNT(rep_methodes) FROM questionnaire_quanti WHERE rep_methodes='Très insuffisant'"
-    cursor = connection.cursor()
+    cursor = cnx.cursor()
     cursor.execute(requete)
     result = cursor.fetchone()[0]
     return(result)
@@ -108,7 +153,7 @@ def getData1():
 def getData2():
 
     requete = "SELECT COUNT(rep_methodes) FROM questionnaire_quanti WHERE rep_methodes='Insatisfaisant'"
-    cursor = connection.cursor()
+    cursor = cnx.cursor()
     cursor.execute(requete)
     result = cursor.fetchone()[0]
     return(result)
@@ -116,7 +161,7 @@ def getData2():
 def getData3():
 
     requete = "SELECT COUNT(rep_methodes) FROM questionnaire_quanti WHERE rep_methodes='Acceptable'"
-    cursor = connection.cursor()
+    cursor = cnx.cursor()
     cursor.execute(requete)
     result = cursor.fetchone()[0]
     return(result)
@@ -124,7 +169,7 @@ def getData3():
 def getData4():
 
     requete = "SELECT COUNT(rep_methodes) FROM questionnaire_quanti WHERE rep_methodes='Satisfaisant'"
-    cursor = connection.cursor()
+    cursor = cnx.cursor()
     cursor.execute(requete)
     result = cursor.fetchone()[0]
     return(result)
@@ -132,7 +177,7 @@ def getData4():
 def getData5():
 
     requete = "SELECT COUNT(rep_methodes) FROM questionnaire_quanti WHERE rep_methodes='Excellent'"
-    cursor = connection.cursor()
+    cursor = cnx.cursor()
     cursor.execute(requete)
     result = cursor.fetchone()[0]
     return(result)
