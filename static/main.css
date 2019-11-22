@@ -41,6 +41,7 @@ body{
     text-decoration: none;
     background-color: dimgrey;
     color: white;
+    transition-duration: 0.5s;
 }
 
 
@@ -114,4 +115,23 @@ body{
 .DWWM:hover{
     background-color: lightpink;
     transition-duration: 0.5s;
+}
+
+.btn_nom_formation{
+    padding: 3rem;
+    width: 15rem;
+    border: 2px solid black;
+    border-radius: 2px;
+    margin-bottom: 1rem;
+    background-color: darkgray;
+    color: white;
+    font-size: 20pt;
+}
+.btn_nom_formation:hover{
+    background-color: grey;
+    transition-duration: 0.8s;
+
+}
+.graphiques{
+margin:auto;
 }
