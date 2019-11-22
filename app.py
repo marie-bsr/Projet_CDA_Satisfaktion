@@ -23,6 +23,8 @@ mycursor = cnx.cursor()
 
 login = LoginManager(app)
 # requete pour recupérer toutes les info d'une table
+
+#requete pour recuperer toutes les données d'une table
 def getTable(table_name):
     cursor = cnx.cursor(dictionary=True)
     sql = (f"SELECT * FROM {table_name}")
