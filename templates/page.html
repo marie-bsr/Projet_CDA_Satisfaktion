@@ -1,42 +1,73 @@
 {% extends "index.html" %}
 
-{% block name %}NOM A RECUPERER{% endblock %}
+{% block name %}{% if profil is defined%}{{profil.nom}}{% endif %}{% endblock %}
 {% block content %}
 
-<div class="col-3">Colonne 1</div>
-<div class="col-3">Colonne 2</div>
-<div class="col-3">Colonne 3</div>
-<div class="col-3">Colonne 4</div>
-<div class="col-3">Colonne 1</div>
-<div class="col-3">Colonne 2</div>
-<div class="col-3">Colonne 3</div>
-<div class="col-3">Colonne 4</div>
-<div class="col-3">Colonne 1</div>
-<div class="col-3">Colonne 2</div>
-<div class="col-3">Colonne 3</div>
-<div class="col-3">Colonne 4</div>
-<div class="col-3">Colonne 1</div>
-<div class="col-3">Colonne 2</div>
-<div class="col-3">Colonne 3</div>
-<div class="col-3">Colonne 4</div>
-<div class="col-3">Colonne 1</div>
-<div class="col-3">Colonne 2</div>
-<div class="col-3">Colonne 3</div>
-<div class="col-3">Colonne 4</div>
-<div class="col-3">Colonne 1</div>
-<div class="col-3">Colonne 2</div>
-<div class="col-3">Colonne 3</div>
-<div class="col-3">Colonne 4</div>
-<div class="col-3">Colonne 1</div>
-<div class="col-3">Colonne 2</div>
-<div class="col-3">Colonne 3</div>
-<div class="col-3">Colonne 4</div>
-<div class="col-3">Colonne 1</div>
-<div class="col-3">Colonne 2</div>
-<div class="col-3">Colonne 3</div>
-<div class="col-3">Colonne 4</div>
-<div class="col-3">Colonne 1</div>
-<div class="col-3">Colonne 2</div>
-<div class="col-3">Colonne 3</div>
-<div class="col-3">Colonne 4</div>
+<div class="liste_formations">
+    <div class="row justify-content-between ml-3 mr-3">
+        <!-- CDA -->
+        <div class="dropdown show">
+            <a class="btn btn-secondary dropdown-toggle " href="#" role="button" id="dropdownMenuLink"
+                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                CDA
+            </a>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                {% for promotion in formations %}
+                {% if "CDA" in promotion["nom"] %}
+                <a class="dropdown-item" href="{{ url_for('page_promo', promotion=promotion ) }}">
+                    {{ promotion["nom"] }} </a>
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+        <!-- DWWM -->
+        <div class="dropdown show">
+            <a class="btn btn-secondary dropdown-toggle " href="#" role="button" id="dropdownMenuLink"
+                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                DWWM
+            </a>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                {% for promotion in formations %}
+                {% if "DWWM" in promotion["nom"] %}
+                <a class="dropdown-item" href="{{ url_for('page_promo', promotion=promotion ) }}">
+                    {{ promotion["nom"] }} </a>
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+
+    </div>
+    <div class="row justify-content-between ml-3 mr-3">
+        <!-- DATA -->
+        <div class="dropdown show">
+            <a class="btn btn-secondary dropdown-toggle " href="#" role="button" id="dropdownMenuLink"
+                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                DATA
+            </a>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                {% for promotion in formations %}
+                {% if "DATA" in promotion['nom'] %}
+                <a class="dropdown-item" href="{{ url_for('page_promo', promotion=promotion ) }}">
+                    {{ promotion['nom'] }} </a>
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+        <!-- WEBMARKET -->
+        <div class="dropdown show">
+            <a class="btn btn-secondary dropdown-toggle " href="#" role="button" id="dropdownMenuLink"
+                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                WEBMARKET
+            </a>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                {% for promotion in formations %}
+                {% if "WEBMARKET" in promotion['nom'] %}
+                <a class="dropdown-item" href="{{ url_for('page_promo', id=promotion.id ) }}">
+                    {{ promotion['nom'] }} </a>
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

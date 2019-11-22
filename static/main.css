@@ -1,8 +1,12 @@
 body{
     font-family: 'Montserrat', sans-serif;
-    background-color: #f2f4f3;
+    background-color: white;
 }
 
+.container{
+    
+    background-color: #f2f4f3;
+}
 
 #img_banniere{
     width: 200px;
@@ -13,15 +17,17 @@ body{
 }
 
 .menu{
+    display: flex;
     height: 150px;
     width: 200px;
-    border: 1px solid dimgray;
+    margin-left: 5rem;
     justify-content: space-evenly;
     align-content: left;
     float: left;
 }
 
 .menu *{
+    display: flex;
     height: 75px;
     line-height: 70px;
     text-align: center;
@@ -49,4 +55,63 @@ body{
 
 .main-body{
     min-height: 350px;
+}
+
+.page_admin{
+    align-items: center;
+}
+
+
+.btn_admin{
+    width: 300px;
+    background-color: darkgray;
+    margin-top: 5px;
+}
+
+.btn_admin:hover{
+    background-color: lightgray;
+}
+
+.liste_formations{
+    min-height: 350px;
+}
+
+.dropdown{
+    margin-top: 4rem;
+}
+
+.dropdown a{
+    padding:2rem;
+    width: 15rem;
+    font-size: 19pt;
+}
+
+.CDA{
+    background-color: greenyellow;
+}
+.CDA:hover{
+    background-color: lightgreen;
+    transition-duration: 0.5s;
+}
+.DATA{
+    background-color: yellow;
+}
+.DATA:hover{
+    background-color: lightyellow;
+    transition-duration: 0.5s;
+}
+.WEBMARKET{
+    background-color: purple;
+
+}
+.WEBMARKET:hover{
+    background-color: rgb(231, 141, 211);
+    transition-duration: 0.5s;
+}
+.DWWM{
+    background-color: rgb(153, 17, 17);
+}
+.DWWM:hover{
+    background-color: lightpink;
+    transition-duration: 0.5s;
 }
