@@ -23,19 +23,6 @@ mycursor = cnx.cursor()
 
 login = LoginManager(app)
 # requete pour recupérer toutes les info d'une table
-
-#connexion à la BDD
-#requete pour recupérer 1 info d'une table
-def mafonctioncompteur (codeSql) :
-    cursor = cnx.cursor()
-    cursor.execute(codeSql) 
-    compteur = []
-    compteur=cursor.fetchone()[0]
-    #for entry in cursor:
-    #    compteur.append(entry)
-    return compteur
-
-
 def getTable(table_name):
     cursor = cnx.cursor(dictionary=True)
     sql = (f"SELECT * FROM {table_name}")
@@ -44,6 +31,17 @@ def getTable(table_name):
     for entry in cursor:
         values.append(entry)
     return values
+
+#requete ciblé
+def getTableById(table_name, id):
+    cursor = cnx.cursor(dictionary=True)
+    sql = (f"SELECT * FROM {table_name} WHERE id={id}")
+    cursor.execute(sql)
+    values = []
+    for entry in cursor:
+        values.append(entry)
+    return values
+
 
 #Requete pour mettre en place les données pour les graphiques
 def getQuantiArray(rep):    
@@ -64,6 +62,7 @@ def getQuantiArray(rep):
             constructor[4] += 1
     return(constructor)
 
+
 # Variables globales
 hash = generate_password_hash('admin')
 formations = getTable("formation")
@@ -72,11 +71,9 @@ roles = getTable('role')
 formations = getTable('formation')
 etudiants = getTable('etudiant')
 
-
-
 @app.route('/')
 def index():
-    return redirect(url_for('page_de_login'))
+    return redirect(url_for('page_accueil'))
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -96,12 +93,12 @@ def page_accueil():
     return render_template("page.html",connected = 1, formations=formations,profil={"nom": "Anthony", "role": "admin"})
 
 
-@app.route('/promotion/<promotion>')
-def page_promo(promotion):
-    promo = eval(promotion)
+@app.route('/promotion/<promotion_id>')
+def page_promo(promotion_id):
+    promo = getTableById("formation", promotion_id)[0]
     results = getQuantiArray("rep_methodes")
-    results_progress = getQuantiArray("rep_progression")
-    return render_template("dashboard.html",connected = 1, promotion=promo, methodes=results, progress= results_progress, profil={"nom": "Anthony", "role": "admin"})
+    progress = getQuantiArray('rep_progression')
+    return render_template("dashboard.html",connected = 1, promotion=promo,methodes=results, progress= progress, profil={"nom": "Anthony", "role": "admin"})
 
 # ADMIN
 @app.route('/admin')
@@ -123,33 +120,13 @@ def admin_formations():
 def admin_etudiants():
     return render_template("admin.html", connected = 1,etudiants=etudiants, formations=formations, profil={"nom": "Anthony", "role": "admin"}, admin_type="étudiants")
 
-#Route tests marie
+
+if __name__ == '__main__':
+    app.run(debug=True)
+
+
 @app.route('/pie')
 def pie():
     results = getQuantiArray('rep_methodes')
     pprint(results)
     return render_template('pie.html', results=results)
-
-
-#Route tests Gwen
-@app.route('/graphique')
-def page_graph () :
-    tab_compteur = getQuantiArray("rep_progression")
-    tab_compteur=[0, 0, 0, 0, 0]
-    #récupération des étiquettes
-    cursor = cnx.cursor(dictionary=True)
-    sql = ("SELECT DISTINCT rep_progression  FROM questionnaire_quanti")
-    cursor.execute(sql) 
-    values = []
-    for entry in cursor:
-        values.append(entry)
-
-    return render_template(
-        "graphGwen.html", 
-        resultetiquette = values,
-        results=tab_compteur
-    )
-
-if __name__ == '__main__':
-    app.run(debug=True)
-

@@ -14,7 +14,7 @@
             <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                 {% for promotion in formations %}
                 {% if "CDA" in promotion["nom"] %}
-                <a class="dropdown-item" href="{{ url_for('page_promo', promotion=promotion ) }}">
+                <a class="dropdown-item" href="{{ url_for('page_promo', promotion_id=promotion.id ) }}">
                     {{ promotion["nom"] }} </a>
                 {% endif %}
                 {% endfor %}
@@ -29,7 +29,7 @@
             <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                 {% for promotion in formations %}
                 {% if "DWWM" in promotion["nom"] %}
-                <a class="dropdown-item" href="{{ url_for('page_promo', promotion=promotion ) }}">
+                <a class="dropdown-item" href="{{ url_for('page_promo', promotion_id=promotion.id ) }}">
                     {{ promotion["nom"] }} </a>
                 {% endif %}
                 {% endfor %}
@@ -47,7 +47,7 @@
             <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                 {% for promotion in formations %}
                 {% if "DATA" in promotion['nom'] %}
-                <a class="dropdown-item" href="{{ url_for('page_promo', promotion=promotion ) }}">
+                <a class="dropdown-item" href="{{ url_for('page_promo', promotion_id=promotion.id ) }}">
                     {{ promotion['nom'] }} </a>
                 {% endif %}
                 {% endfor %}
@@ -62,7 +62,7 @@
             <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                 {% for promotion in formations %}
                 {% if "WEBMARKET" in promotion['nom'] %}
-                <a class="dropdown-item" href="{{ url_for('page_promo', id=promotion.id ) }}">
+                <a class="dropdown-item" href="{{ url_for('page_promo', promotion_id=promotion.id ) }}">
                     {{ promotion['nom'] }} </a>
                 {% endif %}
                 {% endfor %}

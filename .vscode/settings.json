@@ -1,5 +1,5 @@
 {
-    "python.pythonPath": "/Users/cda/Documents/Projet_CDA_Satisfaktion/.venv/bin/python3",
+    "python.pythonPath": "venv\\Scripts\\python.exe",
     "python.linting.pylintEnabled": true,
     "python.linting.enabled": true,
     "python.formatting.provider": "autopep8",
