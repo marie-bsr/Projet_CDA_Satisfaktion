@@ -24,6 +24,17 @@ mycursor = cnx.cursor()
 login = LoginManager(app)
 # requete pour recupérer toutes les info d'une table
 
+#connexion à la BDD
+#requete pour recupérer 1 info d'une table
+def mafonctioncompteur (codeSql) :
+    cursor = cnx.cursor()
+    cursor.execute(codeSql) 
+    compteur = []
+    compteur=cursor.fetchone()[0]
+    #for entry in cursor:
+    #    compteur.append(entry)
+    return compteur
+
 
 def getTable(table_name):
     cursor = cnx.cursor(dictionary=True)
@@ -34,6 +45,24 @@ def getTable(table_name):
         values.append(entry)
     return values
 
+#Requete pour mettre en place les données pour les graphiques
+def getQuantiArray(rep):    
+    cursor = cnx.cursor()
+    requete = (f'SELECT {rep} FROM questionnaire_quanti')
+    cursor.execute(requete)
+    constructor = [0, 0, 0, 0, 0]
+    for data in cursor:
+        if data[0] == "Très insuffisant":
+            constructor[0] += 1
+        if data[0] == "Insatisfaisant":
+            constructor[1] += 1
+        if data[0] == "Acceptable":
+            constructor[2] += 1
+        if data[0] == "Satisfaisant":
+            constructor[3] += 1
+        if data[0] == "Excellent":
+            constructor[4] += 1
+    return(constructor)
 
 # Variables globales
 hash = generate_password_hash('admin')
@@ -43,9 +72,11 @@ roles = getTable('role')
 formations = getTable('formation')
 etudiants = getTable('etudiant')
 
+
+
 @app.route('/')
 def index():
-    return redirect(url_for('page_accueil'))
+    return redirect(url_for('page_de_login'))
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -57,7 +88,7 @@ def page_de_login():
         else:
             return redirect(url_for('page_accueil'))
 
-    return render_template("connection.html", connected=0, error=error)
+    return render_template("connection.html", connected=0, error=error, profil={})
 
 
 @app.route('/accueil')
@@ -68,7 +99,9 @@ def page_accueil():
 @app.route('/promotion/<promotion>')
 def page_promo(promotion):
     promo = eval(promotion)
-    return render_template("dashboard.html",connected = 1, promotion=promo,  profil={"nom": "Anthony", "role": "admin"})
+    results = getQuantiArray("rep_methodes")
+    results_progress = getQuantiArray("rep_progression")
+    return render_template("dashboard.html",connected = 1, promotion=promo, methodes=results, progress= results_progress, profil={"nom": "Anthony", "role": "admin"})
 
 # ADMIN
 @app.route('/admin')
@@ -90,56 +123,33 @@ def admin_formations():
 def admin_etudiants():
     return render_template("admin.html", connected = 1,etudiants=etudiants, formations=formations, profil={"nom": "Anthony", "role": "admin"}, admin_type="étudiants")
 
+#Route tests marie
+@app.route('/pie')
+def pie():
+    results = getQuantiArray('rep_methodes')
+    pprint(results)
+    return render_template('pie.html', results=results)
+
+
+#Route tests Gwen
+@app.route('/graphique')
+def page_graph () :
+    tab_compteur = getQuantiArray("rep_progression")
+    tab_compteur=[0, 0, 0, 0, 0]
+    #récupération des étiquettes
+    cursor = cnx.cursor(dictionary=True)
+    sql = ("SELECT DISTINCT rep_progression  FROM questionnaire_quanti")
+    cursor.execute(sql) 
+    values = []
+    for entry in cursor:
+        values.append(entry)
+
+    return render_template(
+        "graphGwen.html", 
+        resultetiquette = values,
+        results=tab_compteur
+    )
 
 if __name__ == '__main__':
     app.run(debug=True)
 
-
-
-
-def getData1():
-
-    requete = "SELECT COUNT(rep_methodes) FROM questionnaire_quanti WHERE rep_methodes='Très insuffisant'"
-    cursor = connection.cursor()
-    cursor.execute(requete)
-    result = cursor.fetchone()[0]
-    return(result)
-
-def getData2():
-
-    requete = "SELECT COUNT(rep_methodes) FROM questionnaire_quanti WHERE rep_methodes='Insatisfaisant'"
-    cursor = connection.cursor()
-    cursor.execute(requete)
-    result = cursor.fetchone()[0]
-    return(result)
-
-def getData3():
-
-    requete = "SELECT COUNT(rep_methodes) FROM questionnaire_quanti WHERE rep_methodes='Acceptable'"
-    cursor = connection.cursor()
-    cursor.execute(requete)
-    result = cursor.fetchone()[0]
-    return(result)
-
-def getData4():
-
-    requete = "SELECT COUNT(rep_methodes) FROM questionnaire_quanti WHERE rep_methodes='Satisfaisant'"
-    cursor = connection.cursor()
-    cursor.execute(requete)
-    result = cursor.fetchone()[0]
-    return(result)
-
-def getData5():
-
-    requete = "SELECT COUNT(rep_methodes) FROM questionnaire_quanti WHERE rep_methodes='Excellent'"
-    cursor = connection.cursor()
-    cursor.execute(requete)
-    result = cursor.fetchone()[0]
-    return(result)
-
-
-@app.route('/pie')
-def pie():
-    results = [getData1(),getData2(),getData3(),getData4(),getData5()]
-   
-    return render_template('pie.html', results=results)
