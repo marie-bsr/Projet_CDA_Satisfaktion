@@ -23,6 +23,19 @@ mycursor = cnx.cursor()
 
 login = LoginManager(app)
 # requete pour recupérer toutes les info d'une table
+
+#connexion à la BDD
+#requete pour recupérer 1 info d'une table
+def mafonctioncompteur (codeSql) :
+    cursor = cnx.cursor()
+    cursor.execute(codeSql) 
+    compteur = []
+    compteur=cursor.fetchone()[0]
+    #for entry in cursor:
+    #    compteur.append(entry)
+    return compteur
+
+
 def getTable(table_name):
     cursor = cnx.cursor(dictionary=True)
     sql = (f"SELECT * FROM {table_name}")
@@ -51,7 +64,6 @@ def getQuantiArray(rep):
             constructor[4] += 1
     return(constructor)
 
-
 # Variables globales
 hash = generate_password_hash('admin')
 formations = getTable("formation")
@@ -60,9 +72,11 @@ roles = getTable('role')
 formations = getTable('formation')
 etudiants = getTable('etudiant')
 
+
+
 @app.route('/')
 def index():
-    return redirect(url_for('page_accueil'))
+    return redirect(url_for('page_de_login'))
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -86,7 +100,8 @@ def page_accueil():
 def page_promo(promotion):
     promo = eval(promotion)
     results = getQuantiArray("rep_methodes")
-    return render_template("dashboard.html",connected = 1, promotion=promo,results=results,  profil={"nom": "Anthony", "role": "admin"})
+    results_progress = getQuantiArray("rep_progression")
+    return render_template("dashboard.html",connected = 1, promotion=promo, methodes=results, progress= results_progress, profil={"nom": "Anthony", "role": "admin"})
 
 # ADMIN
 @app.route('/admin')
@@ -108,13 +123,33 @@ def admin_formations():
 def admin_etudiants():
     return render_template("admin.html", connected = 1,etudiants=etudiants, formations=formations, profil={"nom": "Anthony", "role": "admin"}, admin_type="étudiants")
 
-
-if __name__ == '__main__':
-    app.run(debug=True)
-
-
+#Route tests marie
 @app.route('/pie')
 def pie():
     results = getQuantiArray('rep_methodes')
     pprint(results)
     return render_template('pie.html', results=results)
+
+
+#Route tests Gwen
+@app.route('/graphique')
+def page_graph () :
+    tab_compteur = getQuantiArray("rep_progression")
+    tab_compteur=[0, 0, 0, 0, 0]
+    #récupération des étiquettes
+    cursor = cnx.cursor(dictionary=True)
+    sql = ("SELECT DISTINCT rep_progression  FROM questionnaire_quanti")
+    cursor.execute(sql) 
+    values = []
+    for entry in cursor:
+        values.append(entry)
+
+    return render_template(
+        "graphGwen.html", 
+        resultetiquette = values,
+        results=tab_compteur
+    )
+
+if __name__ == '__main__':
+    app.run(debug=True)
+

@@ -41,6 +41,7 @@ body{
     text-decoration: none;
     background-color: dimgrey;
     color: white;
+    transition-duration: 0.5s;
 }
 
 
@@ -130,4 +131,7 @@ body{
     background-color: grey;
     transition-duration: 0.8s;
 
+}
+.graphiques{
+margin:auto;
 }
